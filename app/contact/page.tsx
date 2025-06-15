@@ -143,8 +143,8 @@ export default function ContactPage() {
                   <Mail className="h-6 w-6 text-green-500 mt-1" />
                   <div>
                     <h3 className="font-semibold">Email Orders</h3>
-                    <p className="text-gray-600">orders@shigruvedas.com</p>
-                    <p className="text-gray-600">sales@shigruvedas.com</p>
+                    <p className="text-gray-600">shigruvedas@gmail.com</p>
+                    {/* <p className="text-gray-600">sales@shigruvedas.com</p> */}
                   </div>
                 </div>
 
@@ -161,7 +161,7 @@ export default function ContactPage() {
                   <MapPin className="h-6 w-6 text-green-500 mt-1" />
                   <div>
                     <h3 className="font-semibold">Location</h3>
-                    <p className="text-gray-600">shigruvedas Organic</p>
+                    <p className="text-gray-600">Shigruvedas Agro Export</p>
                     {/* <p className="text-gray-600">Village Wellness Road</p> */}
                     <p className="text-gray-600">248, A-Block,hiran magri,saweena,sector 9,udaipur, raj 313002</p>
                   </div>

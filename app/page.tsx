@@ -58,7 +58,7 @@ export default function HomePage() {
             </Button>
             <Button variant="outline" size="sm" className="border-green-500 text-green-600 hover:bg-green-50">
               <Mail className="h-4 w-4 mr-2" />
-              orders@shigruvedas.com
+              shigruvedas@gmail.com
             </Button>
           </div>
         </div>
