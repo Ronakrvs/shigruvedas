@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -9,9 +10,16 @@ import { Badge } from "@/components/ui/badge"
 import { Mail, Phone, MapPin, Clock, Truck, Leaf, Shield, Star, CheckCircle, MessageCircle } from "lucide-react"
 import Image from "next/image"
 import Head from "next/head"
+import { useRef, useState } from "react"
+// import SuccessModal from "./successModal"
 import WhatsAppButton from "@/components/whatsapp-button"
+import SuccessModal from "@/components/successModal"
 
 export default function ContactPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
+  
   // Structured data for contact page
   const structuredData = {
     "@context": "https://schema.org",
@@ -34,39 +42,34 @@ export default function ContactPage() {
       "openingHours": [
         "Mo-Sa 08:00-19:00",
         "Su 09:00-17:00"
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Organic Moringa Products",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Product",
-              "name": "Fresh Organic Moringa Leaves",
-              "description": "Hand-picked daily from certified organic farm in Rajasthan"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Product",
-              "name": "Organic Moringa Powder",
-              "description": "Premium sun-dried and stone-ground moringa leaf powder"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Product",
-              "name": "Fresh Moringa Drumsticks",
-              "description": "Young tender moringa pods for traditional cooking"
-            }
-          }
-        ]
-      }
+      ]
     }
   };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    
+    const form = e.currentTarget
+    const formData = new FormData(form)
+
+    try {
+      // Submit to Netlify
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData as any).toString(),
+      })
+      
+      setIsModalOpen(true)
+      formRef.current?.reset()
+    } catch (error) {
+      alert("Form submission failed. Please try again or contact us directly.")
+      console.error("Form submission error:", error)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <>
@@ -92,17 +95,11 @@ export default function ContactPage() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        
-        {/* Local Business Meta */}
-        <meta name="geo.region" content="IN-RJ" />
-        <meta name="geo.placename" content="Udaipur, Rajasthan" />
-        <meta name="geo.position" content="24.571267;73.691544" />
-        <meta name="ICBM" content="24.571267, 73.691544" />
       </Head>
 
       <div className="min-h-screen bg-gradient-to-b from-green-50 to-amber-50">
         <div className="container mx-auto px-4 py-16">
-          {/* Header */}
+          {/* Enhanced Header */}
           <div className="text-center mb-16">
             <Image
               src="/images/image.png"
@@ -151,179 +148,208 @@ export default function ContactPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
+                <form
+                  ref={formRef}
+                  name="contact"
+                  method="POST"
+                  data-netlify="true"
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                >
+                  <input type="hidden" name="form-name" value="contact" />
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">First Name *</Label>
+                      <Input 
+                        id="firstName" 
+                        name="firstName" 
+                        placeholder="Your first name" 
+                        required 
+                        className="border-green-200 focus:border-green-400"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Last Name *</Label>
+                      <Input 
+                        id="lastName" 
+                        name="lastName" 
+                        placeholder="Your last name" 
+                        required 
+                        className="border-green-200 focus:border-green-400"
+                      />
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name *</Label>
+                    <Label htmlFor="email">Email Address *</Label>
                     <Input 
-                      id="firstName" 
-                      placeholder="Your first name" 
+                      id="email" 
+                      name="email" 
+                      type="email" 
+                      placeholder="your@email.com" 
+                      required 
                       className="border-green-200 focus:border-green-400"
                     />
                   </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name *</Label>
+                    <Label htmlFor="phone">Phone Number (WhatsApp) *</Label>
                     <Input 
-                      id="lastName" 
-                      placeholder="Your last name"
+                      id="phone" 
+                      name="phone" 
+                      type="tel" 
+                      placeholder="+91 98765 43210" 
+                      required 
+                      className="border-green-200 focus:border-green-400"
+                    />
+                    <p className="text-xs text-gray-500">We'll send order updates via WhatsApp</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="city">City/District *</Label>
+                    <Input 
+                      id="city" 
+                      name="city"
+                      placeholder="e.g., Mumbai, Delhi, Bangalore"
+                      required
                       className="border-green-200 focus:border-green-400"
                     />
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email Address *</Label>
-                  <Input 
-                    id="email" 
-                    type="email" 
-                    placeholder="your@email.com"
-                    className="border-green-200 focus:border-green-400"
-                  />
-                </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="address">Complete Delivery Address</Label>
+                    <Textarea 
+                      id="address" 
+                      name="address" 
+                      placeholder="House/Flat No., Street, Area, Landmark, Pincode..." 
+                      className="min-h-[80px] border-green-200 focus:border-green-400" 
+                    />
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number (WhatsApp) *</Label>
-                  <Input 
-                    id="phone" 
-                    type="tel" 
-                    placeholder="+91 98765 43210"
-                    className="border-green-200 focus:border-green-400"
-                  />
-                  <p className="text-xs text-gray-500">We'll send order updates via WhatsApp</p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="city">City/District *</Label>
-                  <Input 
-                    id="city" 
-                    placeholder="e.g., Mumbai, Delhi, Bangalore"
-                    className="border-green-200 focus:border-green-400"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="address">Complete Delivery Address</Label>
-                  <Textarea 
-                    id="address" 
-                    placeholder="House/Flat No., Street, Area, Landmark, Pincode..."
-                    className="min-h-[80px] border-green-200 focus:border-green-400"
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <Label className="text-base font-semibold">Select Moringa Products *</Label>
-                  <div className="space-y-4 bg-green-50 p-4 rounded-lg">
-                    <div className="flex items-center justify-between p-3 bg-white rounded border">
-                      <div className="flex items-center space-x-3">
-                        <Checkbox id="fresh-leaves" />
-                        <div>
-                          <Label htmlFor="fresh-leaves" className="font-medium">Fresh Organic Moringa Leaves</Label>
-                          <p className="text-sm text-gray-600">Hand-picked daily, rich in 90+ nutrients</p>
+                  <div className="space-y-4">
+                    <Label className="text-base font-semibold">Select Moringa Products *</Label>
+                    <div className="space-y-4 bg-green-50 p-4 rounded-lg">
+                      <div className="flex items-center justify-between p-3 bg-white rounded border">
+                        <div className="flex items-center space-x-3">
+                          <Checkbox id="fresh-leaves" name="freshLeaves" />
+                          <div>
+                            <Label htmlFor="fresh-leaves" className="font-medium">Fresh Organic Moringa Leaves</Label>
+                            <p className="text-sm text-gray-600">Hand-picked daily, rich in 90+ nutrients</p>
+                          </div>
                         </div>
+                        <Input name="freshLeavesQty" placeholder="Qty (kg)" className="w-20 text-center" />
                       </div>
-                      <Input placeholder="Qty (kg)" className="w-20 text-center" />
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 bg-white rounded border">
-                      <div className="flex items-center space-x-3">
-                        <Checkbox id="powder" />
-                        <div>
-                          <Label htmlFor="powder" className="font-medium">Organic Moringa Leaf Powder</Label>
-                          <p className="text-sm text-gray-600">Sun-dried & stone-ground, long shelf life</p>
+                      
+                      <div className="flex items-center justify-between p-3 bg-white rounded border">
+                        <div className="flex items-center space-x-3">
+                          <Checkbox id="powder" name="powder" />
+                          <div>
+                            <Label htmlFor="powder" className="font-medium">Organic Moringa Leaf Powder</Label>
+                            <p className="text-sm text-gray-600">Sun-dried & stone-ground, long shelf life</p>
+                          </div>
                         </div>
+                        <Input name="powderQty" placeholder="Qty (gm)" className="w-20 text-center" />
                       </div>
-                      <Input placeholder="Qty (gm)" className="w-20 text-center" />
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 bg-white rounded border">
-                      <div className="flex items-center space-x-3">
-                        <Checkbox id="drumsticks" />
-                        <div>
-                          <Label htmlFor="drumsticks" className="font-medium">Fresh Moringa Drumsticks</Label>
-                          <p className="text-sm text-gray-600">Young tender pods for cooking</p>
+                      
+                      <div className="flex items-center justify-between p-3 bg-white rounded border">
+                        <div className="flex items-center space-x-3">
+                          <Checkbox id="drumsticks" name="drumsticks" />
+                          <div>
+                            <Label htmlFor="drumsticks" className="font-medium">Fresh Moringa Drumsticks</Label>
+                            <p className="text-sm text-gray-600">Young tender pods for cooking</p>
+                          </div>
                         </div>
+                        <Input name="drumsticksQty" placeholder="Qty (kg)" className="w-20 text-center" />
                       </div>
-                      <Input placeholder="Qty (kg)" className="w-20 text-center" />
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 bg-white rounded border">
-                      <div className="flex items-center space-x-3">
-                        <Checkbox id="seeds" />
-                        <div>
-                          <Label htmlFor="seeds" className="font-medium">Moringa Seeds</Label>
-                          <p className="text-sm text-gray-600">For cultivation or direct consumption</p>
+                      
+                      <div className="flex items-center justify-between p-3 bg-white rounded border">
+                        <div className="flex items-center space-x-3">
+                          <Checkbox id="seeds" name="seeds" />
+                          <div>
+                            <Label htmlFor="seeds" className="font-medium">Moringa Seeds</Label>
+                            <p className="text-sm text-gray-600">For cultivation or direct consumption</p>
+                          </div>
                         </div>
+                        <Input name="seedsQty" placeholder="Qty" className="w-20 text-center" />
                       </div>
-                      <Input placeholder="Qty" className="w-20 text-center" />
                     </div>
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="order-type">Order Type *</Label>
-                  <Select>
-                    <SelectTrigger className="border-green-200 focus:border-green-400">
-                      <SelectValue placeholder="Select order type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="personal">Personal/Family Use</SelectItem>
-                      <SelectItem value="bulk">Bulk Purchase (5kg+)</SelectItem>
-                      <SelectItem value="wholesale">Wholesale/Business Inquiry</SelectItem>
-                      <SelectItem value="retail">Retail Store Partnership</SelectItem>
-                      <SelectItem value="export">Export Inquiry</SelectItem>
-                      <SelectItem value="restaurant">Restaurant/Hotel Supply</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="order-type">Order Type *</Label>
+                    <Select name="orderType" required>
+                      <SelectTrigger className="border-green-200 focus:border-green-400">
+                        <SelectValue placeholder="Select order type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="personal">Personal/Family Use</SelectItem>
+                        <SelectItem value="bulk">Bulk Purchase (5kg+)</SelectItem>
+                        <SelectItem value="wholesale">Wholesale/Business Inquiry</SelectItem>
+                        <SelectItem value="retail">Retail Store Partnership</SelectItem>
+                        <SelectItem value="export">Export Inquiry</SelectItem>
+                        <SelectItem value="restaurant">Restaurant/Hotel Supply</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="delivery">Preferred Delivery Time</Label>
-                  <Select>
-                    <SelectTrigger className="border-green-200 focus:border-green-400">
-                      <SelectValue placeholder="Select delivery preference" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="asap">As Soon As Possible</SelectItem>
-                      <SelectItem value="morning">Morning (9AM-12PM)</SelectItem>
-                      <SelectItem value="afternoon">Afternoon (12PM-5PM)</SelectItem>
-                      <SelectItem value="evening">Evening (5PM-8PM)</SelectItem>
-                      <SelectItem value="weekend">Weekend Only</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="delivery">Preferred Delivery Time</Label>
+                    <Select name="deliveryTime">
+                      <SelectTrigger className="border-green-200 focus:border-green-400">
+                        <SelectValue placeholder="Select delivery preference" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="asap">As Soon As Possible</SelectItem>
+                        <SelectItem value="morning">Morning (9AM-12PM)</SelectItem>
+                        <SelectItem value="afternoon">Afternoon (12PM-5PM)</SelectItem>
+                        <SelectItem value="evening">Evening (5PM-8PM)</SelectItem>
+                        <SelectItem value="weekend">Weekend Only</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="message">Special Requirements/Questions</Label>
-                  <Textarea
-                    id="message"
-                    placeholder="Specific packaging needs, recurring orders, custom processing, certifications required, etc..."
-                    className="min-h-[100px] border-green-200 focus:border-green-400"
-                  />
-                </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Special Requirements/Questions</Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      placeholder="Specific packaging needs, recurring orders, custom processing, certifications required, etc..."
+                      className="min-h-[100px] border-green-200 focus:border-green-400"
+                    />
+                  </div>
 
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="terms" />
-                  <Label htmlFor="terms" className="text-sm leading-relaxed">
-                    I agree to receive order updates, delivery notifications, and occasional promotional offers 
-                    from Shigruvedas via WhatsApp, SMS, and email
-                  </Label>
-                </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox id="terms" name="terms" />
+                    <Label htmlFor="terms" className="text-sm leading-relaxed">
+                      I agree to receive order updates, delivery notifications, and occasional promotional offers 
+                      from Shigruvedas via WhatsApp, SMS, and email
+                    </Label>
+                  </div>
 
-                <div className="space-y-3">
-                  <Button className="w-full bg-green-600 hover:bg-green-700 py-3 text-lg font-semibold">
-                    <CheckCircle className="h-5 w-5 mr-2" />
-                    Submit Order Request
-                  </Button>
-                  <WhatsAppButton
-                    message="Hi! I want to place an order for organic moringa products from your Rajasthan farm. Can you help me with pricing and delivery?"
-                    className="w-full bg-green-500 hover:bg-green-600 py-3"
-                    size="lg"
-                  >
-                    <MessageCircle className="h-5 w-5 mr-2" />
-                    Quick Order via WhatsApp
-                  </WhatsAppButton>
-                </div>
+                  <div className="space-y-3">
+                    <Button 
+                      type="submit" 
+                      disabled={isSubmitting}
+                      className="w-full bg-green-600 hover:bg-green-700 py-3 text-lg font-semibold disabled:opacity-50"
+                    >
+                      <CheckCircle className="h-5 w-5 mr-2" />
+                      {isSubmitting ? "Submitting..." : "Submit Order Request"}
+                    </Button>
+                    <WhatsAppButton
+                      message="Hi! I want to place an order for organic moringa products from your Rajasthan farm. Can you help me with pricing and delivery?"
+                      className="w-full bg-green-500 hover:bg-green-600 py-3"
+                      size="lg"
+                    >
+                      {/* <MessageCircle className="h-5 w-5 mr-2" /> */}
+                      Quick Order via WhatsApp
+                    </WhatsAppButton>
+                  </div>
+                </form>
               </CardContent>
             </Card>
+
+            <SuccessModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
             {/* Enhanced Contact Information */}
             <div className="space-y-6">
@@ -433,14 +459,6 @@ export default function ContactPage() {
                         <p className="text-sm text-gray-600">Organic certificates, lab reports, FSSAI compliance</p>
                       </div>
                     </div>
-                    
-                    <div className="flex items-start space-x-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                      <div>
-                        <p className="font-medium text-gray-800">Export Documentation</p>
-                        <p className="text-sm text-gray-600">Complete export paperwork for international orders</p>
-                      </div>
-                    </div>
                   </div>
                   
                   <div className="pt-4 border-t border-amber-200">
@@ -493,14 +511,14 @@ export default function ContactPage() {
                       </div>
                     </div>
                     
-                    <div className="p-3 bg-green-100 rounded-lg border border-green-200">
+                    {/* <div className="p-3 bg-green-100 rounded-lg border border-green-200">
                       <h4 className="font-semibold text-green-800 mb-2">Delivery Charges</h4>
                       <ul className="text-sm text-gray-700 space-y-1">
                         <li>• <strong>Free delivery</strong> for orders above ₹5,000</li>
                         <li>• <strong>₹150-300</strong> for orders below ₹5,000 (distance-based)</li>
                         <li>• <strong>Express delivery</strong> available at additional cost</li>
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                 </CardContent>
               </Card>
