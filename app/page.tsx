@@ -143,7 +143,7 @@ export default function HomePage() {
               </div>
               <div className="flex items-center gap-1">
                 <Truck className="h-4 w-4" />
-                <span>Free Delivery Pan India</span>
+                <span>Delivery Pan India</span>
               </div>
             </div>
 
