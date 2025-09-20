@@ -5,240 +5,509 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Mail, Phone, MapPin, Clock, Truck, Leaf } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Mail, Phone, MapPin, Clock, Truck, Leaf, Shield, Star, CheckCircle, MessageCircle } from "lucide-react"
 import Image from "next/image"
+import Head from "next/head"
+import WhatsAppButton from "@/components/whatsapp-button"
 
 export default function ContactPage() {
+  // Structured data for contact page
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "mainEntity": {
+      "@type": "LocalBusiness",
+      "name": "Shigruvedas Organic Moringa Farm",
+      "description": "Order premium organic moringa products directly from our 50+ acre certified farm in Rajasthan. Fresh moringa leaves, powder, drumsticks with free delivery.",
+      "url": "https://shigruvedas.com/contact",
+      "telephone": "+91-7877255595",
+      "email": "shigruvedas@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "248, A-Block, hiran magri, saweena, sector 9",
+        "addressLocality": "Udaipur",
+        "addressRegion": "Rajasthan",
+        "postalCode": "313002",
+        "addressCountry": "IN"
+      },
+      "openingHours": [
+        "Mo-Sa 08:00-19:00",
+        "Su 09:00-17:00"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Organic Moringa Products",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Fresh Organic Moringa Leaves",
+              "description": "Hand-picked daily from certified organic farm in Rajasthan"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Organic Moringa Powder",
+              "description": "Premium sun-dried and stone-ground moringa leaf powder"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Fresh Moringa Drumsticks",
+              "description": "Young tender moringa pods for traditional cooking"
+            }
+          }
+        ]
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-amber-50">
-      <div className="container mx-auto px-4 py-16">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <Image
-            src="/images/image.png"
-            alt="shigruvedas Logo"
-            width={120}
-            height={120}
-            className="mx-auto mb-6"
-          />
-          <h1 className="text-4xl md:text-5xl font-bold text-green-800 mb-6">Order Fresh Moringa</h1>
-          <p className="text-xl text-green-700 max-w-2xl mx-auto">
-            Ready to experience the power of organic moringa? Place your order or inquire about bulk purchases today!
-          </p>
-        </div>
+    <>
+      <Head>
+        <title>Order Fresh Organic Moringa Online - Direct from Rajasthan Farm | Shigruvedas</title>
+        <meta 
+          name="description" 
+          content="Order premium organic moringa leaves, powder & drumsticks online. Direct from our certified farm in Rajasthan. Free delivery, bulk orders welcome. Call +91 7877255595" 
+        />
+        <meta name="keywords" content="order moringa online, buy organic moringa, moringa delivery India, bulk moringa order, fresh moringa leaves online, moringa powder order, contact shigruvedas" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://shigruvedas.com/contact" />
+        
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content="Order Fresh Organic Moringa Online - Shigruvedas Rajasthan Farm" />
+        <meta property="og:description" content="Order premium organic moringa products directly from our certified farm in Rajasthan. Fresh delivery across India." />
+        <meta property="og:image" content="https://shigruvedas.com/images/fresh-moringa-order.jpg" />
+        <meta property="og:url" content="https://shigruvedas.com/contact" />
+        <meta property="og:type" content="website" />
+        
+        {/* Structured Data */}
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        
+        {/* Local Business Meta */}
+        <meta name="geo.region" content="IN-RJ" />
+        <meta name="geo.placename" content="Udaipur, Rajasthan" />
+        <meta name="geo.position" content="24.571267;73.691544" />
+        <meta name="ICBM" content="24.571267, 73.691544" />
+      </Head>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Order Form */}
-          <Card className="border-green-200">
-            <CardHeader>
-              <CardTitle className="text-green-800 flex items-center">
-                <Leaf className="h-5 w-5 mr-2" />
-                Place Your Order/Inquiry
-              </CardTitle>
-              <CardDescription>
-                Fill out the form below and we'll get back to you with pricing and availability.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name *</Label>
-                  <Input id="firstName" placeholder="Your first name" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name *</Label>
-                  <Input id="lastName" placeholder="Your last name" />
-                </div>
-              </div>
+      <div className="min-h-screen bg-gradient-to-b from-green-50 to-amber-50">
+        <div className="container mx-auto px-4 py-16">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <Image
+              src="/images/image.png"
+              alt="Shigruvedas Organic Moringa Farm - Order Fresh Moringa Products Online"
+              width={120}
+              height={120}
+              className="mx-auto mb-6 drop-shadow-lg"
+              priority
+            />
+            <h1 className="text-4xl md:text-6xl font-bold text-green-800 mb-6">
+              Order Fresh Organic Moringa Online
+            </h1>
+            <p className="text-xl md:text-2xl text-green-700 max-w-4xl mx-auto leading-relaxed">
+              Ready to experience the power of premium organic moringa from our 50+ acre certified farm in Rajasthan? 
+              Place your order for fresh moringa leaves, powder, and drumsticks with free delivery across India!
+            </p>
+            
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center gap-4 mt-8 text-sm">
+              <Badge variant="secondary" className="bg-green-100 text-green-700 px-3 py-1">
+                <Shield className="h-3 w-3 mr-1" />
+                100% Organic Certified
+              </Badge>
+              <Badge variant="secondary" className="bg-blue-100 text-blue-700 px-3 py-1">
+                <Truck className="h-3 w-3 mr-1" />
+                Free Delivery Above ₹5000
+              </Badge>
+              <Badge variant="secondary" className="bg-amber-100 text-amber-700 px-3 py-1">
+                <Star className="h-3 w-3 mr-1" />
+                5+ Years Trusted Quality
+              </Badge>
+            </div>
+          </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address *</Label>
-                <Input id="email" type="email" placeholder="your@email.com" />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number *</Label>
-                <Input id="phone" type="tel" placeholder="+91 98765 43210" />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="address">Delivery Address</Label>
-                <Textarea id="address" placeholder="Complete address for delivery..." className="min-h-[80px]" />
-              </div>
-
-              <div className="space-y-4">
-                <Label className="text-base font-semibold">Products Needed *</Label>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="fresh-leaves" />
-                    <Label htmlFor="fresh-leaves" className="flex-1">
-                      Fresh Moringa Leaves
-                    </Label>
-                    <Input placeholder="Quantity" className="w-24" />
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="powder" />
-                    <Label htmlFor="powder" className="flex-1">
-                      Moringa Powder
-                    </Label>
-                    <Input placeholder="Quantity" className="w-24" />
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="drumsticks" />
-                    <Label htmlFor="drumsticks" className="flex-1">
-                      Fresh Drumsticks
-                    </Label>
-                    <Input placeholder="Quantity" className="w-24" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="order-type">Order Type</Label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select order type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="personal">Personal Use</SelectItem>
-                    <SelectItem value="bulk">Bulk Purchase</SelectItem>
-                    <SelectItem value="wholesale">Wholesale Inquiry</SelectItem>
-                    <SelectItem value="retail">Retail Partnership</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="message">Additional Requirements</Label>
-                <Textarea
-                  id="message"
-                  placeholder="Any specific requirements, delivery preferences, or questions..."
-                  className="min-h-[100px]"
-                />
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox id="terms" />
-                <Label htmlFor="terms" className="text-sm">
-                  I agree to receive updates about my order and promotional offers from shigruvedas
-                </Label>
-              </div>
-
-              <Button className="w-full bg-green-600 hover:bg-green-700">Submit Order Request</Button>
-            </CardContent>
-          </Card>
-
-          {/* Contact Information */}
-          <div className="space-y-8">
-            <Card className="border-green-200">
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Enhanced Order Form */}
+            <Card className="border-green-200 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-green-800 flex items-center">
-                  <Phone className="h-5 w-5 mr-2" />
-                  Get in Touch
+                <CardTitle className="text-green-800 flex items-center text-xl">
+                  <Leaf className="h-5 w-5 mr-2" />
+                  Place Your Moringa Order/Inquiry
                 </CardTitle>
-                <CardDescription>Multiple ways to reach us for orders and inquiries.</CardDescription>
+                <CardDescription className="text-base">
+                  Fill out the form below and we'll get back to you within 2 hours with pricing, 
+                  availability, and delivery details from our Rajasthan farm.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <Mail className="h-6 w-6 text-green-500 mt-1" />
-                  <div>
-                    <h3 className="font-semibold">Email Orders</h3>
-                    <p className="text-gray-600">shigruvedas@gmail.com</p>
-                    {/* <p className="text-gray-600">sales@shigruvedas.com</p> */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">First Name *</Label>
+                    <Input 
+                      id="firstName" 
+                      placeholder="Your first name" 
+                      className="border-green-200 focus:border-green-400"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Last Name *</Label>
+                    <Input 
+                      id="lastName" 
+                      placeholder="Your last name"
+                      className="border-green-200 focus:border-green-400"
+                    />
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <Phone className="h-6 w-6 text-green-500 mt-1" />
-                  <div>
-                    <h3 className="font-semibold">Phone Orders</h3>
-                    <p className="text-gray-600">+91 7877255595 (Orders)</p>
-                    {/* <p className="text-gray-600">+91 87654 32109 (Bulk Inquiry)</p> */}
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email Address *</Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    placeholder="your@email.com"
+                    className="border-green-200 focus:border-green-400"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone Number (WhatsApp) *</Label>
+                  <Input 
+                    id="phone" 
+                    type="tel" 
+                    placeholder="+91 98765 43210"
+                    className="border-green-200 focus:border-green-400"
+                  />
+                  <p className="text-xs text-gray-500">We'll send order updates via WhatsApp</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="city">City/District *</Label>
+                  <Input 
+                    id="city" 
+                    placeholder="e.g., Mumbai, Delhi, Bangalore"
+                    className="border-green-200 focus:border-green-400"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="address">Complete Delivery Address</Label>
+                  <Textarea 
+                    id="address" 
+                    placeholder="House/Flat No., Street, Area, Landmark, Pincode..."
+                    className="min-h-[80px] border-green-200 focus:border-green-400"
+                  />
+                </div>
+
+                <div className="space-y-4">
+                  <Label className="text-base font-semibold">Select Moringa Products *</Label>
+                  <div className="space-y-4 bg-green-50 p-4 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-white rounded border">
+                      <div className="flex items-center space-x-3">
+                        <Checkbox id="fresh-leaves" />
+                        <div>
+                          <Label htmlFor="fresh-leaves" className="font-medium">Fresh Organic Moringa Leaves</Label>
+                          <p className="text-sm text-gray-600">Hand-picked daily, rich in 90+ nutrients</p>
+                        </div>
+                      </div>
+                      <Input placeholder="Qty (kg)" className="w-20 text-center" />
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-3 bg-white rounded border">
+                      <div className="flex items-center space-x-3">
+                        <Checkbox id="powder" />
+                        <div>
+                          <Label htmlFor="powder" className="font-medium">Organic Moringa Leaf Powder</Label>
+                          <p className="text-sm text-gray-600">Sun-dried & stone-ground, long shelf life</p>
+                        </div>
+                      </div>
+                      <Input placeholder="Qty (gm)" className="w-20 text-center" />
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-3 bg-white rounded border">
+                      <div className="flex items-center space-x-3">
+                        <Checkbox id="drumsticks" />
+                        <div>
+                          <Label htmlFor="drumsticks" className="font-medium">Fresh Moringa Drumsticks</Label>
+                          <p className="text-sm text-gray-600">Young tender pods for cooking</p>
+                        </div>
+                      </div>
+                      <Input placeholder="Qty (kg)" className="w-20 text-center" />
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-3 bg-white rounded border">
+                      <div className="flex items-center space-x-3">
+                        <Checkbox id="seeds" />
+                        <div>
+                          <Label htmlFor="seeds" className="font-medium">Moringa Seeds</Label>
+                          <p className="text-sm text-gray-600">For cultivation or direct consumption</p>
+                        </div>
+                      </div>
+                      <Input placeholder="Qty" className="w-20 text-center" />
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <MapPin className="h-6 w-6 text-green-500 mt-1" />
-                  <div>
-                    <h3 className="font-semibold">Location</h3>
-                    <p className="text-gray-600">Shigruvedas Agro Export</p>
-                    {/* <p className="text-gray-600">Village Wellness Road</p> */}
-                    <p className="text-gray-600">248, A-Block,hiran magri,saweena,sector 9,udaipur, raj 313002</p>
-                  </div>
+                <div className="space-y-2">
+                  <Label htmlFor="order-type">Order Type *</Label>
+                  <Select>
+                    <SelectTrigger className="border-green-200 focus:border-green-400">
+                      <SelectValue placeholder="Select order type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="personal">Personal/Family Use</SelectItem>
+                      <SelectItem value="bulk">Bulk Purchase (5kg+)</SelectItem>
+                      <SelectItem value="wholesale">Wholesale/Business Inquiry</SelectItem>
+                      <SelectItem value="retail">Retail Store Partnership</SelectItem>
+                      <SelectItem value="export">Export Inquiry</SelectItem>
+                      <SelectItem value="restaurant">Restaurant/Hotel Supply</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <Clock className="h-6 w-6 text-green-500 mt-1" />
-                  <div>
-                    <h3 className="font-semibold">Order Hours</h3>
-                    <p className="text-gray-600">Monday - Saturday: 8:00 AM - 7:00 PM</p>
-                    <p className="text-gray-600">Sunday: 9:00 AM - 5:00 PM</p>
-                    {/* <p className="text-gray-600">Harvest Season: Extended Hours</p> */}
-                  </div>
+                <div className="space-y-2">
+                  <Label htmlFor="delivery">Preferred Delivery Time</Label>
+                  <Select>
+                    <SelectTrigger className="border-green-200 focus:border-green-400">
+                      <SelectValue placeholder="Select delivery preference" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="asap">As Soon As Possible</SelectItem>
+                      <SelectItem value="morning">Morning (9AM-12PM)</SelectItem>
+                      <SelectItem value="afternoon">Afternoon (12PM-5PM)</SelectItem>
+                      <SelectItem value="evening">Evening (5PM-8PM)</SelectItem>
+                      <SelectItem value="weekend">Weekend Only</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="message">Special Requirements/Questions</Label>
+                  <Textarea
+                    id="message"
+                    placeholder="Specific packaging needs, recurring orders, custom processing, certifications required, etc..."
+                    className="min-h-[100px] border-green-200 focus:border-green-400"
+                  />
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="terms" />
+                  <Label htmlFor="terms" className="text-sm leading-relaxed">
+                    I agree to receive order updates, delivery notifications, and occasional promotional offers 
+                    from Shigruvedas via WhatsApp, SMS, and email
+                  </Label>
+                </div>
+
+                <div className="space-y-3">
+                  <Button className="w-full bg-green-600 hover:bg-green-700 py-3 text-lg font-semibold">
+                    <CheckCircle className="h-5 w-5 mr-2" />
+                    Submit Order Request
+                  </Button>
+                  <WhatsAppButton
+                    message="Hi! I want to place an order for organic moringa products from your Rajasthan farm. Can you help me with pricing and delivery?"
+                    className="w-full bg-green-500 hover:bg-green-600 py-3"
+                    size="lg"
+                  >
+                    <MessageCircle className="h-5 w-5 mr-2" />
+                    Quick Order via WhatsApp
+                  </WhatsAppButton>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Bulk Purchase Info */}
-            <Card className="border-amber-200 bg-amber-50">
-              <CardHeader>
-                <CardTitle className="text-green-800 flex items-center">
-                  <Truck className="h-5 w-5 mr-2" />
-                  Bulk Purchase Benefits
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <ul className="space-y-2 text-gray-700">
-                  <li className="flex items-center">
-                    <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                    Special wholesale pricing for bulk orders
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                    Free delivery for orders above ₹5,000
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                    Custom packaging options available
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                    Regular supply contracts for businesses
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                    Quality certificates and lab reports
-                  </li>
-                </ul>
-                <Button className="w-full bg-amber-600 hover:bg-amber-700">Request Bulk Pricing</Button>
-              </CardContent>
-            </Card>
+            {/* Enhanced Contact Information */}
+            <div className="space-y-6">
+              <Card className="border-green-200 shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-green-800 flex items-center text-xl">
+                    <Phone className="h-5 w-5 mr-2" />
+                    Contact Shigruvedas Organic Farm
+                  </CardTitle>
+                  <CardDescription className="text-base">
+                    Multiple ways to reach us for orders, inquiries, and farm visits. 
+                    We respond within 2 hours during business hours.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="flex items-start space-x-4 p-3 bg-green-50 rounded-lg">
+                    <Mail className="h-6 w-6 text-green-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold text-green-800">Email Orders & Inquiries</h3>
+                      <p className="text-gray-700 mb-1">shigruvedas@gmail.com</p>
+                      <p className="text-sm text-gray-600">Response time: Within 2-4 hours</p>
+                    </div>
+                  </div>
 
-            {/* Delivery Info */}
-            <Card className="border-blue-200 bg-blue-50">
-              <CardHeader>
-                <CardTitle className="text-green-800">Delivery Information</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3 text-gray-700">
-                  <p>
-                    <strong>Local Delivery:</strong> Same day for orders before 2 PM
-                  </p>
-                  <p>
-                    <strong>Regional Delivery:</strong> 1-2 business days
-                  </p>
-                  <p>
-                    <strong>Pan-India:</strong> 2-5 business days via courier
-                  </p>
-                  {/* <p>
-                    <strong>Fresh Products:</strong> Packed with ice packs for freshness
-                  </p> */}
-                </div>
-              </CardContent>
-            </Card>
+                  <div className="flex items-start space-x-4 p-3 bg-blue-50 rounded-lg">
+                    <Phone className="h-6 w-6 text-blue-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold text-green-800">Direct Phone & WhatsApp Orders</h3>
+                      <p className="text-gray-700 mb-1">+91 7877255595</p>
+                      <p className="text-sm text-gray-600">Available for orders, bulk inquiries, farm visits</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4 p-3 bg-amber-50 rounded-lg">
+                    <MapPin className="h-6 w-6 text-amber-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold text-green-800">Farm Location & Office</h3>
+                      <p className="text-gray-700 font-medium">Shigruvedas Agro Export</p>
+                      <p className="text-gray-700">248, A-Block, Hiran Magri</p>
+                      <p className="text-gray-700">Saweena, Sector 9</p>
+                      <p className="text-gray-700">Udaipur, Rajasthan 313002, India</p>
+                      <p className="text-sm text-gray-600 mt-1">Farm visits welcome with appointment</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4 p-3 bg-emerald-50 rounded-lg">
+                    <Clock className="h-6 w-6 text-emerald-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold text-green-800">Business Hours</h3>
+                      <p className="text-gray-700">Monday - Saturday: 8:00 AM - 7:00 PM</p>
+                      <p className="text-gray-700">Sunday: 9:00 AM - 5:00 PM</p>
+                      <p className="text-sm text-gray-600 mt-1">Extended hours during harvest season (Oct-Mar)</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Enhanced Bulk Purchase Benefits */}
+              <Card className="border-amber-200 bg-gradient-to-br from-amber-50 to-yellow-50 shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-green-800 flex items-center text-xl">
+                    <Truck className="h-5 w-5 mr-2" />
+                    Bulk Order & Wholesale Benefits
+                  </CardTitle>
+                  <CardDescription className="text-base">
+                    Special advantages for businesses, retailers, and large quantity orders
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 gap-3">
+                    <div className="flex items-start space-x-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-medium text-gray-800">Wholesale Pricing Tiers</p>
+                        <p className="text-sm text-gray-600">Up to 30% discount on bulk orders above 25kg</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-medium text-gray-800">Free Pan-India Delivery</p>
+                        <p className="text-sm text-gray-600">No shipping charges for orders above ₹5,000</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-medium text-gray-800">Custom Packaging & Branding</p>
+                        <p className="text-sm text-gray-600">Private labeling available for retailers</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-medium text-gray-800">Regular Supply Contracts</p>
+                        <p className="text-sm text-gray-600">Monthly/quarterly delivery agreements</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-medium text-gray-800">Quality Certifications</p>
+                        <p className="text-sm text-gray-600">Organic certificates, lab reports, FSSAI compliance</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-medium text-gray-800">Export Documentation</p>
+                        <p className="text-sm text-gray-600">Complete export paperwork for international orders</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-amber-200">
+                    <WhatsAppButton
+                      message="Hi! I'm interested in bulk/wholesale purchase of organic moringa products from your Rajasthan farm. Please share pricing tiers and minimum order quantities."
+                      className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+                    >
+                      Get Bulk Pricing Quote
+                    </WhatsAppButton>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Enhanced Delivery Information */}
+              <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-green-800 flex items-center text-xl">
+                    <Truck className="h-5 w-5 mr-2" />
+                    Delivery & Shipping Information
+                  </CardTitle>
+                  <CardDescription className="text-base">
+                    Fast, secure delivery across India with proper packaging for freshness
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="p-3 bg-white rounded-lg border border-blue-200">
+                        <h4 className="font-semibold text-green-800 mb-2">Rajasthan & Nearby States</h4>
+                        <p className="text-sm text-gray-700 mb-1"><strong>Same/Next day delivery</strong></p>
+                        <p className="text-xs text-gray-600">Orders before 2 PM for same-day delivery in Udaipur</p>
+                      </div>
+                      
+                      <div className="p-3 bg-white rounded-lg border border-blue-200">
+                        <h4 className="font-semibold text-green-800 mb-2">Metro Cities</h4>
+                        <p className="text-sm text-gray-700 mb-1"><strong>1-2 business days</strong></p>
+                        <p className="text-xs text-gray-600">Delhi, Mumbai, Bangalore, Chennai, Pune, Ahmedabad</p>
+                      </div>
+                      
+                      <div className="p-3 bg-white rounded-lg border border-blue-200">
+                        <h4 className="font-semibold text-green-800 mb-2">All India Delivery</h4>
+                        <p className="text-sm text-gray-700 mb-1"><strong>2-5 business days</strong></p>
+                        <p className="text-xs text-gray-600">Via professional courier services</p>
+                      </div>
+                      
+                      <div className="p-3 bg-white rounded-lg border border-blue-200">
+                        <h4 className="font-semibold text-green-800 mb-2">Fresh Product Packaging</h4>
+                        <p className="text-sm text-gray-700 mb-1"><strong>Temperature controlled</strong></p>
+                        <p className="text-xs text-gray-600">Ice packs & insulated boxes for fresh products</p>
+                      </div>
+                    </div>
+                    
+                    <div className="p-3 bg-green-100 rounded-lg border border-green-200">
+                      <h4 className="font-semibold text-green-800 mb-2">Delivery Charges</h4>
+                      <ul className="text-sm text-gray-700 space-y-1">
+                        <li>• <strong>Free delivery</strong> for orders above ₹5,000</li>
+                        <li>• <strong>₹150-300</strong> for orders below ₹5,000 (distance-based)</li>
+                        <li>• <strong>Express delivery</strong> available at additional cost</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
